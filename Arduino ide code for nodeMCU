@@ -8,11 +8,13 @@ arduino ide with nodemcu board , simple iot project using cayenne
 
 
 Servo myservo;
-char ssid[]="jyothu";
-char pass[]="jyothujyothu";
-char username[]="27b8ffd0-96fc-11e7-94c8-a1bba3f5296f";
-char password[]="8f0fe6b7bc0caae6cf8174c5032bda15e453d782";
-char client_id[]="2cf0e510-b8e0-11e8-95e0-af9cccd7b289";
+
+char ssid[]="jyothu";               //my wifi name
+char pass[]="jyothujyothu";         //my wifi password
+
+char username[]="27b8ffd0-96fc-11e7-94c8-a1bba3f5296f";       //obtained from cayenne site
+char password[]="8f0fe6b7bc0caae6cf8174c5032bda15e453d782";   //obtained from cayenne site
+char client_id[]="2cf0e510-b8e0-11e8-95e0-af9cccd7b289";      //obtained from cayenne site
 
 void setup (){
 
@@ -23,19 +25,20 @@ void setup (){
 }
 void loop(){
 
-   digitalWrite(D0,HIGH);
-  Cayenne.loop();
-  delay(300);
-  digitalWrite(D0,LOW);
-  int ldr_value=analogRead(A0);
-  Cayenne.virtualWrite(0,ldr_value);
+   digitalWrite(D0,HIGH);       //node mcu board led low
+  Cayenne.loop();               // waits for ping
+  delay(300);                   
+  digitalWrite(D0,LOW);         //led high
+  int ldr_value=analogRead(A0);     //ldr value read adc
+  ldr_value=map(ldr_value,0,1023,0,100);    // changing range 0-1023 to 0-100
+  Cayenne.virtualWrite(0,ldr_value);    //LDR VALUE TO CAYENNE
  delay(300);
- 
+                                ////VOID LOOP FN REPEATS
 }
-CAYENNE_IN(1){
+CAYENNE_IN(1){                                
   
-  myservo.write(getValue.asInt());
-  delay(20);
+  myservo.write(getValue.asInt());        // whenever we change the value in cayenne value pass to servo fn
+  delay(20);                          //delay for stable servo sweeep
   
 }
 
