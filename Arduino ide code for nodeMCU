@@ -1,8 +1,12 @@
 # Node-MCU_iot_workshop
 arduino ide with nodemcu board , simple iot project using cayenne
+
+
 #include <CayenneMQTTESP8266.h>
 #include <ESP8266WiFi.h>
 #include <Servo.h>
+
+
 Servo myservo;
 char ssid[]="jyothu";
 char pass[]="jyothujyothu";
@@ -11,11 +15,14 @@ char password[]="8f0fe6b7bc0caae6cf8174c5032bda15e453d782";
 char client_id[]="2cf0e510-b8e0-11e8-95e0-af9cccd7b289";
 
 void setup (){
+
   Cayenne.begin(username,password,client_id,ssid,pass);
  myservo.attach(D5);
  pinMode(D0,OUTPUT);
+ 
 }
 void loop(){
+
    digitalWrite(D0,HIGH);
   Cayenne.loop();
   delay(300);
@@ -23,10 +30,12 @@ void loop(){
   int ldr_value=analogRead(A0);
   Cayenne.virtualWrite(0,ldr_value);
  delay(300);
+ 
 }
 CAYENNE_IN(1){
   
   myservo.write(getValue.asInt());
   delay(20);
+  
 }
 
